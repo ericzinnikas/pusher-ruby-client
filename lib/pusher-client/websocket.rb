@@ -84,6 +84,10 @@ module PusherClient
         messages << message.to_s
       end
       messages
+	rescue EOFError => error
+	  #let the user handle this...?
+	  logger.debug error.message
+	  ["pusher:connection_disconnected", error.message]
     rescue IOError, Errno::EBADF => error
       logger.debug error.message
       []
